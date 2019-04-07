@@ -1,0 +1,24 @@
+{% extends "index.twig" %}
+
+{% block body %}
+<div class="content">
+    <div class="product-description-wrap">
+        <img src="{{ product['image'] }}" alt="картинка">
+        <div class="product-description">
+            <div class="product-name">
+                <h1>{{ product['name'] }}</h1>
+            </div>
+            <div class="product-name">
+                <h4>{{ product['description'] }}</h4>
+            </div>
+            <div class="product-name">
+                <h1>${{ product['price'] }}</h1>
+            </div>
+        </div>
+        <div class="cart-hint-wrapper">
+            <div class="cart-hint-control add" data-id="{{ product['id'] }}">+</div>
+            <div class="cart-hint-control remove" data-id="{{ product['id'] }}">-</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

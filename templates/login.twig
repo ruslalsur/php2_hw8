@@ -1,0 +1,22 @@
+{% extends "index.twig" %}
+
+{% block body %}
+<form action="/user/login/" method="POST">
+    <fieldset class="fset-main">
+        <div>
+            <p>
+                <label for="login"><b>login</b></label><br>
+                <input id="login" type="text" name="login" placeholder="имя">
+            </p>
+            <p>
+                <label for="password"><b>пароль</b></label><br>
+                <input id="password" type="password" name="password" placeholder="точечки">
+            </p>
+            <p>
+                <input style="font-size: 2em" type="submit" value="Войти">
+            </p>
+        </div>
+        <div class="reg-msg">{{ message }}</div>
+    </fieldset>
+</form>
+{% endblock %}

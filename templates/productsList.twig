@@ -1,0 +1,13 @@
+<div class="productListContainer">
+    {% for product in products %}
+    <a href="/product/index/?id={{ product['id'] }}">
+        <figure class="product">
+            <img src="{{ product['image'] }}" alt="product" width="200">
+            <figcaption class="product_caption">
+                <h3 class="product_name">{{ product['name'] }}</h3>
+                <h4 class="product_price">${{ product['price'] }}</h4>
+            </figcaption>
+        </figure>
+    </a>
+    {% endfor %}
+</div>

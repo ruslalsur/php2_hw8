@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<header>
+    {% block nav %}
+        <div class="menu-wrap">
+            <a class="control {{ hide.main }}" href="/index/index/">Главная страница</a>
+            <a class="control {{ hide.products }}" href="/products/index/">Каталог товаров</a>
+            <a class="control {{ hide.login }}" href="/user/login/">Войти</a>
+            <a class="control {{ hide.profile }}" href="/user/profile/">Личный кабинет</a>
+            <a class="control disabled {{ hide.reg }}" href="/user/register/">Регистрация</a>
+            <a class="control cart-btn {{ hide.cart }}" href="/cart/showCartContent/">Корзина
+                <div class="cart-hint-btn">{{ cartQuantity }}<span class="cart-hint-span">(${{ cartPrice }})</span></div>
+            </a>
+            <a class="control cart-btn {{ hide.order }}" href="/user/orderer/">Оформить заказ</a>
+            <a class="control {{ hide.logout }}" href="/user/logout/">Выйти</a>
+        </div>
+    {% endblock %}
+</header>
+
+<h1>{{ title }}</h1>
+
+{% block body %}
+    <h2>Новостей нету, идите в каталог ...</h2>
+    <p>Так и не хватит времени реализовать как Вы показывали - как во фреймворках.
+        Не хотелось копипастить, разобраться надо больше времени, сделал по старому и старое исполнение
+        мне очень не нравится, потом для себя переделаю</p>
+{% endblock %}
+
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/async.js"></script>
+</body>
+</html>

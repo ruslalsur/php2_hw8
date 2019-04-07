@@ -1,0 +1,8 @@
+{% extends "index.twig" %}
+
+{% block body %}
+<h2> Приветствую тебя, <span class="cart-hint-btn">{{ userName }}</span></h2>
+{{ ordersContent | raw }}
+<h3 style="color: green">{{ viewedHeader }}</h3>
+{% include 'productsList.twig' %}
+{% endblock %}
