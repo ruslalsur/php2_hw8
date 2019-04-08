@@ -1,7 +1,7 @@
 {% extends "index.twig" %}
 
 {% block body %}
-    <form action="" method="POST">
+    <form action="/user/registerUser/" method="POST">
         <fieldset class="fset-main">
             <div>
                 <p>
@@ -21,7 +21,7 @@
                     <input style="font-size: 2em" type="reset" value="Очистить поля">
                 </p>
             </div>
-            <div class="reg-msg"><?=$msg?></div>
+            <div class="reg-msg">{{ message }}</div>
         </fieldset>
     </form>
 {% endblock %}

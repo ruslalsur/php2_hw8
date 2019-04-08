@@ -7,6 +7,37 @@ use App\Models\User;
 class UserController extends Controller {
     protected $template;
 
+    public function registerUser() {
+        //получение данных из формы
+        $name = $_POST['name'] ?? '';
+        $login = $_POST['login'] ?? '';
+        $password = md5($_POST['password'] ?? '');
+        $this->template = 'reg.twig';
+
+        //проверка на заполнение формы
+        if (!$name || !$login || !$password) {
+            $msg = 'форма не заполнена';
+        } else {
+
+            //проверка существования зарегистрированного пользователя
+            if (User::userIsRegistred([$login, $password])) {
+                $msg = 'уже зарегистрирован';
+            } else {
+                $msg = User::createUser([$name, $login, $password]) ? 'зарегистрирован' : 'не зарегистрирован';
+            }
+        }
+
+        //подготовка меню для отображения
+        $this->hidenMenuItems['reg'] = 'hide';
+        $this->hidenMenuItems['login'] = 'hide';
+
+        return $this->render(['title' => 'Регистрация',
+            'hide' => $this->hidenMenuItems,
+            'message' => $msg
+        ]);
+
+    }
+
     //метод контролера пользователя реализующий функционал залогинивания пользователя
     public function login() {
         $this->template = 'login.twig';
@@ -74,6 +105,7 @@ class UserController extends Controller {
             $amountSum = 0;
             $content = '';
             $this->template = 'orderRow.twig';
+
             foreach ($orderProducts as $product) {
                 $amount = $product['amount'];
                 $price = $product['price'];

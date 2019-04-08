@@ -11,6 +11,12 @@ use App\Classes\DB;
 class User extends Model {
     protected static $table = 'users';
 
+    //создание нового пользователя в $params должно быть [name, login, password]
+    public static function createUser($params) {
+        $table = static::$table;
+        return DB::getInstance()->exec("INSERT INTO $table (`name`, `login`, `password`) VALUES (?, ?, ?)", $params);
+    }
+
     //проверка на существование зарегистрированного пользователя
     public static function userIsRegistred($params) {
         $table = static::$table;
@@ -22,6 +28,7 @@ class User extends Model {
         $userRole = (int)$_SESSION['login']['role'];
         return $userRole ? true : false;
     }
+
 
     //получение списка заказов всех пользователей
     public static function fetchOrders() {
