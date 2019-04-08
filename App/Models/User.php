@@ -3,10 +3,10 @@
 
 namespace App\Models;
 
-
 use App\Classes\DB;
 
-//это вот такой вот наспех вместо фреймворашной красаты
+//в этой модели хотел собрать все, что касается пользователя и как оказалось его касается почти все все, надо будет
+//разделить потом
 
 class User extends Model {
     protected static $table = 'users';
@@ -28,7 +28,6 @@ class User extends Model {
         $userRole = (int)$_SESSION['login']['role'];
         return $userRole ? true : false;
     }
-
 
     //получение списка заказов всех пользователей
     public static function fetchOrders() {

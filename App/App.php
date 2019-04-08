@@ -40,8 +40,8 @@ class App {
 
         echo $controller->$method($_REQUEST);
 
-        echo '<pre>';
-        var_dump($_POST);
-        echo '</pre>';
+//        echo '<pre>';
+//        var_dump($_POST);
+//        echo '</pre>';
     }
 }
