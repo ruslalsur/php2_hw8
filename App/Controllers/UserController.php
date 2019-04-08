@@ -35,8 +35,6 @@ class UserController extends Controller {
         $this->hidenMenuItems['login'] = 'hide';
 
         return $this->render(['title' => 'Вход',
-            'cartQuantity' => $_SESSION['cartQuantity'] ?? '',
-            'cartPrice' => $_SESSION['cartPrice'] ?? '',
             'hide' => $this->hidenMenuItems,
             'message' => $msg
         ]);
@@ -60,11 +58,6 @@ class UserController extends Controller {
 
         //подготовка меню для отображения
         $this->hidenMenuItems['profile'] = 'hide';
-
-        if (!empty($_SESSION['viewed'])) {
-            $viwedHeader = 'Вами недавно было просмотрено:';
-        }
-
 
         //генерация списка заказов
         if (User::isAdmin()) {
@@ -109,7 +102,7 @@ class UserController extends Controller {
             //кто именно назаказывал то стока ...
             $orderUserName = User::fetchOne([$order['user_id']])['name'];
 
-            //генерация заголовка заказа
+            //начало генерации заголовка заказа
             $subString = '<select class="adm-order-status"  data-id="' . $orderId . '">';
             foreach ($statuses as $key => $status) {
 
@@ -140,42 +133,28 @@ class UserController extends Controller {
             }
 
             //продолжение генерации заголовка
-            $orderHeader =
-                '<div class="order-container">
-                <div class="order-row">
-                    <div class="order-col header-row">
-                        &nbspЗАКАЗ&nbsp' . $orderId . '&nbsp (' . $orderUserName . ')&nbsp' . $subString . '
-                    </div>
-                    <div class="order-col header-row">цена за шт.</div>
-                    <div class="order-col header-row">штук</div>
-                    <div class="order-col header-row">итого</div>
-                </div>';
+            $this->template = 'orderHeader.twig';
+            $orderHeader = $this->render(['orderId' => $orderId,
+                'orderUserName' => $orderUserName,
+                'subString' => $subString
+            ]);
 
             //генерация строки "итого" заказа
-            $orderFooter =
-                '<div class="order-row footer">
-                    <div class="order-col">ИТОГО</div>
-                    <div class="order-col"></div>
-                    <div class="order-col">' . $amountSum . '</div>
-                    <div class="order-col">$' . $orderSum . '</div>
-                </div>
-            </div>';
+            $this->template = 'orderFooter.twig';
+            $orderFooter = $this->render(['amountSum' => $amountSum,
+                'orderSum' => $orderSum
+            ]);
 
             //сборка всей разметки заказа
-            $result .=  $orderHeader . $content . $orderFooter;
-
+            $result .= $orderHeader . $content . $orderFooter;
         }
-        $result = '<h3>Список Ваших заказов:</h3>' . $result;
 
         $this->template = 'profile.twig';
         return $this->render(['title' => 'Личный кабинет',
-            'cartQuantity' => $_SESSION['cartQuantity'] ?? '',
-            'cartPrice' => $_SESSION['cartPrice'] ?? '',
             'hide' => $this->hidenMenuItems,
             'ordersContent' => $result,
             'viewedHeader' => $viwedHeader,
-            'userName' => $_SESSION['login']['name'],
-            'products' => $_SESSION['viewed'] ?? ''
+            'products' => $this->app->session['viewed'] ?? ''
         ]);
     }
 
@@ -219,13 +198,13 @@ class UserController extends Controller {
     }
 
     //метод контролера пользователя реализующий функционал изменения статуса заказа
-    function changeOrderStatus () {
+    function changeOrderStatus() {
         $orderId = $_POST['orderId'];
         $selectedStatus = $_POST['selectedStatus'];
 
         //поменяется в любом случае для роли администратора или же если заказ не завершен
         //для пользователя будет доступна только опция отмены заказа и все ...
-        if(User::isAdmin() || (!User::isAdmin() && (int)User::fetchOne([$orderId]) < 3)) {
+        if (User::isAdmin() || (!User::isAdmin() && (int)User::fetchOne([$orderId]) < 3)) {
             echo User::updateOrderStatus([$selectedStatus, $orderId]);
         }
     }

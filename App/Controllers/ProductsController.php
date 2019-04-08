@@ -16,8 +16,6 @@ class ProductsController extends Controller {
 
         return $this->render(['title' => 'Каталог товаров',
             'products' => $products,
-            'cartQuantity' => $_SESSION['cartQuantity'] ?? '',
-            'cartPrice' => $_SESSION['cartPrice'] ?? '',
             'hide' => $this->hidenMenuItems
         ]);
     }

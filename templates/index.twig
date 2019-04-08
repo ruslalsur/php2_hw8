@@ -16,7 +16,7 @@
             <a class="control {{ hide.profile }}" href="/user/profile/">Личный кабинет</a>
             <a class="control disabled {{ hide.reg }}" href="/user/register/">Регистрация</a>
             <a class="control cart-btn {{ hide.cart }}" href="/cart/showCartContent/">Корзина
-                <div class="cart-hint-btn">{{ cartQuantity }}<span class="cart-hint-span">(${{ cartPrice }})</span></div>
+                <div class="cart-hint-btn">{{ session.cartQuantity }}<span class="cart-hint-span">(${{ session.cartPrice }})</span></div>
             </a>
             <a class="control cart-btn {{ hide.order }}" href="/user/orderer/">Оформить заказ</a>
             <a class="control {{ hide.logout }}" href="/user/logout/">Выйти</a>
@@ -27,10 +27,12 @@
 <h1>{{ title }}</h1>
 
 {% block body %}
-    <h2>Новостей нету, идите в каталог ...</h2>
-    <p>Так и не хватит времени реализовать как Вы показывали - как во фреймворках.
-        Не хотелось копипастить, разобраться надо больше времени, сделал по старому и старое исполнение
-        мне очень не нравится, потом для себя переделаю</p>
+    <h2>Новости:</h2>
+    <ol>
+        <li>Резко сокрашено колличество html в контролере пользователя, перенесен в шаблон (было замечание)</li>
+        <li>Плавный переход на использование свойства $app->session вместо обращения к глобальному массиву $_SESSION</li>
+        <li>Оптимизация шаблонов на отображение/скрытие заголовков в зависимости от наличия контента</li>
+    </ol>
 {% endblock %}
 
 <script src="/js/jquery-3.3.1.min.js"></script>

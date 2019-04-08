@@ -39,5 +39,9 @@ class App {
         }
 
         echo $controller->$method($_REQUEST);
+
+//        echo '<pre>';
+//        var_dump($this->session);
+//        echo '</pre>';
     }
 }

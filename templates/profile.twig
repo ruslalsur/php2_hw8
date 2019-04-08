@@ -1,8 +1,18 @@
 {% extends "index.twig" %}
 
 {% block body %}
-<h2> Приветствую тебя, <span class="cart-hint-btn">{{ userName }}</span></h2>
-{{ ordersContent | raw }}
-<h3 style="color: green">{{ viewedHeader }}</h3>
-{% include 'productsList.twig' %}
+    <h2> Приветствую тебя, <span class="cart-hint-btn">{{ session.login.name }}</span></h2>
+
+    {% if ordersContent is not empty %}
+        <h3 style="color: blue">Список Ваших заказов:</h3>
+    {% endif %}
+
+    {{ ordersContent | raw }}
+
+    {% if session.viewed is not empty %}
+        <h3 style="color: green">Вами недавно было просмотрено:</h3>
+    {% endif %}
+
+    {% include 'productsList.twig' %}
 {% endblock %}
+

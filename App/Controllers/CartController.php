@@ -21,9 +21,6 @@ class CartController extends Controller {
     //метод контролера реализующий функционал отображение содержимого корзины
     public function showCartContent() {
         return $this->render(['title' => 'Содержимое корзины',
-            'cart' => $_SESSION['cart'] ?? '',
-            'cartQuantity' => $_SESSION['cartQuantity'] ?? '',
-            'cartPrice' => $_SESSION['cartPrice'] ?? '',
             'hide' => $this->hidenMenuItems
         ]);
     }

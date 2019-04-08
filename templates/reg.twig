@@ -1,0 +1,27 @@
+{% extends "index.twig" %}
+
+{% block body %}
+    <form action="" method="POST">
+        <fieldset class="fset-main">
+            <div>
+                <p>
+                    <label for="name"><b>имя</b></label><br>
+                    <input type="text" name="name" placeholder="имя пользователя">
+                </p>
+                <p>
+                    <label for="login"><b>login</b></label><br>
+                    <input name="login" placeholder="login">
+                </p>
+                <p>
+                    <label for="name"><b>пароль</b></label><br>
+                    <input type="text" name="password" placeholder="звездочки">
+                </p>
+                <p>
+                    <input style="font-size: 2em" type="submit" value="регистрация">
+                    <input style="font-size: 2em" type="reset" value="Очистить поля">
+                </p>
+            </div>
+            <div class="reg-msg"><?=$msg?></div>
+        </fieldset>
+    </form>
+{% endblock %}

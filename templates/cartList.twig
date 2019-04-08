@@ -1,5 +1,5 @@
 <div class="productListContainer">
-    {% for product in cart %}
+    {% for product in session.cart %}
     <a href="/product/index/?id={{ product['id'] }}">
         <figure class="product">
             <img src="{{ product['image'] }}" alt="product" width="200">

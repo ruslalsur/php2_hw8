@@ -10,8 +10,6 @@ class IndexController extends Controller {
         $this->hidenMenuItems['main'] = 'hide';
 
         return $this->render(['title' => 'Главная страница',
-            'cartQuantity' => $_SESSION['cartQuantity'] ?? '',
-            'cartPrice' => $_SESSION['cartPrice'] ?? '',
             'hide' => $this->hidenMenuItems
 
         ]);
