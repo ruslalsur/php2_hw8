@@ -16,15 +16,15 @@ class ProductController extends Controller {
         $this->id = (int)$data['id'] ?? '';
         $this->product = Product::fetchOne([$this->id]);
 
-        if (!empty($_SESSION['login'])) {
+        if (!empty($this->app->session['login'])) {
             //запоминание первой просмотренной страницы товара в список просмотренных товаров
-            if (empty($_SESSION['viewed'])) {
-                $_SESSION['viewed'][] = $this->product;
+            if (empty($this->app->session['viewed'])) {
+                $this->app->session['viewed'][] = $this->product;
             }
 
             //проверка на наличие просматриваемой страницы товара в списке
             $this->present = false;
-            foreach ($_SESSION['viewed'] as $viewedEach) {
+            foreach ($this->app->session['viewed'] as $viewedEach) {
                 if (in_array($this->product['id'], $viewedEach)) {
                     $this->present = true;
                 }
@@ -32,12 +32,12 @@ class ProductController extends Controller {
 
             //добавление страницы в список просмотренных, если там такой уже нет
             if (!$this->present) {
-                $_SESSION['viewed'][] = $this->product;
+                $this->app->session['viewed'][] = $this->product;
             }
 
             //проверка на размер списка просмотренных страниц пользователя
-            if (count($_SESSION['viewed']) > 5) {
-                array_shift($_SESSION['viewed']);
+            if (count($this->app->session['viewed']) > 5) {
+                array_shift($this->app->session['viewed']);
             }
         }
 

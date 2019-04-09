@@ -4,7 +4,11 @@
     <h2> Приветствую тебя, <span class="cart-hint-btn">{{ session.login.name }}</span></h2>
 
     {% if ordersContent is not empty %}
-        <h3 style="color: blue">Список Ваших заказов:</h3>
+        {% if session.login.role == 1 %}
+            <h3 style="color: blue">Список заказов всех пользователей:</h3>
+        {% else %}
+            <h3 style="color: blue">Список Ваших заказов:</h3>
+        {% endif %}
     {% endif %}
 
     {{ ordersContent | raw }}
