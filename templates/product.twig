@@ -24,7 +24,7 @@
     {% if session.login.role == 1 %}
         <h3>Администрирование товара</h3>
         <a class="control" href="/product/createProduct/">новый&nbsp</a>
-        <a class="control" href="/product/updateProduct?id={{ product['id'] }}/">изменить&nbsp</a>
-        <a class="control" href="/product/deleteProduct?id={{ product['id'] }}/">удалить&nbsp</a>
+        <a class="control" href="/product/updateProduct/?id={{ product['id'] }}">изменить&nbsp</a>
+        <a class="control" href="/product/deleteProduct/?id={{ product['id'] }}">удалить&nbsp</a>
     {% endif %}
 {% endblock %}

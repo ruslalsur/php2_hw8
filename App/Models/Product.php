@@ -19,7 +19,7 @@ class Product extends Model {
     //изменение товара в базе данных
     public static function update($params) {
         $table = static::$table;
-        return DB::getInstance()->exec("INSERT INTO $table (`name`, `description`, `price`, `image`)
-             VALUES (:name, :description, :price, :image)", $params) ? DB::getInstance()->pdo->lastInsertId() : false;
+        return DB::getInstance()->exec("UPDATE $table SET `name` = :name, `description` = :description, `price` = :price, 
+                    `image` = :image WHERE `id` = :id", $params);
     }
 }

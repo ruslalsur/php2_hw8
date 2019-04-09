@@ -7,9 +7,10 @@ use App\Models\Product;
 
 class ProductController extends Controller {
     protected $template = 'product.twig';
-    private $id;
+    protected $id;
     protected $product;
     private $present;
+    private $image;
 
     public function index($data = []) {
         $this->id = (int)$data['id'] ?? '';
@@ -57,34 +58,55 @@ class ProductController extends Controller {
             ]);
         }
 
+        //добавления нового изображения либо картинки по-умолчанию см. константу NO_IMAGE в config.php
+        $this->image = $this->uploadFile();
+        if (empty($image)) {
+            $this->image = '/img/' . basename(NO_IMAGE);
+        }
+
         $newProductDetails = [
             ':name' => $this->app->post['name'],
             ':description' => $this->app->post['description'],
             ':price' => $this->app->post['price'],
-            ':image' => $this->uploadFile()
+            ':image' => $this->image
         ];
 
         header('Location: /product/index/?id=' . Product::create($newProductDetails));
     }
 
     //изменение характеристик товара в каталоге
-    public function updateProduct($id, $name, $description, $price, $discount, $image) {
-        $db = createConnection();
-        $id = (int)$id;
-        $name = escapeString($db, $name);
-        $description = escapeString($db, $description);
-        $price = (float)$price;
-        $discount = (int)$discount;
+    public function updateProduct($data = []) {
+        $this->id = (int)$data['id'] ?? '';
+        $this->product = Product::fetchOne([$this->id]);
+        var_dump($this->id);
 
-        //изменение картинки товара, если поле с картинкой товара не было заполнено
-        if (empty($image)) {
-            $sql = 'UPDATE products SET name = "' . $name . '", description = "' . $description . '", price = "' . $price . '", discount = "' . $discount . '" WHERE id=' . $id;
-        } else {
-            $sql = 'UPDATE products SET name = "' . $name . '", description = "' . $description . '", price = "' . $price . '", image = "' . $image . '", discount = "' . $discount . '" WHERE id=' . $id;
-
+        if (empty($this->app->post)) {
+            $this->template = 'updateProduct.twig';
+            return $this->render([
+                'title' => 'Изменить товар',
+                'hide' => $this->hidenMenuItems,
+                'productDetails' => $this->product
+            ]);
         }
 
-        return execQuery($sql, $db);
+        //изменение либо сохранение старого изображения
+        $oldImage = $this->product['image'];
+        $this->image = $this->uploadFile();
+        if (empty($this->image)) {
+            $this->image = $oldImage;
+        }
+
+        $newProductDetails = [
+            ':name' => $this->app->post['name'],
+            ':description' => $this->app->post['description'],
+            ':price' => $this->app->post['price'],
+            ':image' => $this->image,
+            ':id' => $this->id
+        ];
+//        var_dump($newProductDetails);
+//        var_dump(Product::update($newProductDetails));
+
+        Product::update($newProductDetails) ? header('Location: /product/index/?id=' . $this->id) : false;
     }
 
     //удаление товара из каталога
@@ -102,7 +124,7 @@ class ProductController extends Controller {
         if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
             return '/img/upload/' . basename($uploadfile);
         } else {
-            return '/img/' . basename(NO_IMAGE);
+            return '';
         }
     }
 }

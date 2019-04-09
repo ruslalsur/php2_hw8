@@ -1,0 +1,40 @@
+{% extends "index.twig" %}
+
+{% block body %}
+    <form enctype="multipart/form-data" action="/product/updateProduct/?id={{ productDetails['id'] }}"
+          method="POST">
+        <fieldset class="fset-main">
+            <div>
+                <p>
+                    <label for="name"><b>Наименование</b></label><br>
+                    <input type="text" name="name" value="{{ productDetails.name }}">
+                </p>
+                <p>
+                    <label for="description"><b>Описание</b></label><br>
+                    <textarea name="description" cols="60" rows="10">{{ productDetails['description'] }}</textarea>
+                </p>
+
+                <div class="menu-wrap">
+                    <p>
+                        <label for="name"><b>Цена $</b></label><br>
+                        <input style="margin-right: 30px" type="number" name="price" value="{{ productDetails['price'] }}">
+                    </p>
+                </div>
+                <p>
+                    <input type="submit" value="Изменить информацию о товаре">
+                </p>
+            </div>
+            <div>
+                <p>
+                    <b>Текущее изображение товара</b><br>
+                    <img src="{{ productDetails['image'] }}" alt="image" width="380">
+                    <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла (в байтах) -->
+                    <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
+                    <!-- Название элемента input определяет имя в массиве $_FILES -->
+                    <label for="userfile"><b>Другое </b></label>
+                    <input name="userfile" type="file">
+                </p>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
