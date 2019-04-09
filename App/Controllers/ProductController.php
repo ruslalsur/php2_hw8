@@ -47,13 +47,7 @@ class ProductController extends Controller {
         ]);
     }
 
-    /**
-     * создание нового товара в каталоге
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
+    //создание нового товара в каталоге
     public function createProduct() {
         if (empty($this->app->post)) {
             $this->template = 'createProduct.twig';
@@ -79,14 +73,8 @@ class ProductController extends Controller {
         header('Location: /product/index/?id=' . Product::create($newProductDetails));
     }
 
-    /**
-     * изменение характеристик товара в каталоге
-     * @param array $data
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
+
+    //изменение характеристик товара в каталоге
     public function updateProduct($data = []) {
         $this->id = (int)$data['id'] ?? '';
         $this->product = Product::fetchOne([$this->id]);
