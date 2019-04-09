@@ -15,4 +15,11 @@ class Product extends Model {
         return DB::getInstance()->exec("INSERT INTO $table (`name`, `description`, `price`, `image`)
              VALUES (:name, :description, :price, :image)", $params) ? DB::getInstance()->pdo->lastInsertId() : false;
     }
+
+    //изменение товара в базе данных
+    public static function update($params) {
+        $table = static::$table;
+        return DB::getInstance()->exec("INSERT INTO $table (`name`, `description`, `price`, `image`)
+             VALUES (:name, :description, :price, :image)", $params) ? DB::getInstance()->pdo->lastInsertId() : false;
+    }
 }

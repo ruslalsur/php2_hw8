@@ -12,10 +12,8 @@ class ProductController extends Controller {
     private $present;
 
     public function index($data = []) {
-        var_dump($data);
         $this->id = (int)$data['id'] ?? '';
         $this->product = Product::fetchOne([$this->id]);
-        var_dump($this->product);
 
         if (!empty($_SESSION['login'])) {
             //запоминание первой просмотренной страницы товара в список просмотренных товаров
@@ -67,7 +65,6 @@ class ProductController extends Controller {
         ];
 
         header('Location: /product/index/?id=' . Product::create($newProductDetails));
-//        $this->index(['path' => 'product/index', 'id' => Product::create($newProductDetails)]);
     }
 
     //изменение характеристик товара в каталоге
