@@ -47,8 +47,13 @@ class ProductController extends Controller {
         ]);
     }
 
-    //создание нового товара в каталоге
-    //$params = [':name'=>$name, ':description'=>$description, ':price'=>$price, ':image'=>$image]
+    /**
+     * создание нового товара в каталоге
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function createProduct() {
         if (empty($this->app->post)) {
             $this->template = 'createProduct.twig';
@@ -60,7 +65,7 @@ class ProductController extends Controller {
 
         //добавления нового изображения либо картинки по-умолчанию см. константу NO_IMAGE в config.php
         $this->image = $this->uploadFile();
-        if (empty($image)) {
+        if (empty($this->image)) {
             $this->image = '/img/' . basename(NO_IMAGE);
         }
 
@@ -74,7 +79,14 @@ class ProductController extends Controller {
         header('Location: /product/index/?id=' . Product::create($newProductDetails));
     }
 
-    //изменение характеристик товара в каталоге
+    /**
+     * изменение характеристик товара в каталоге
+     * @param array $data
+     * @return string
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function updateProduct($data = []) {
         $this->id = (int)$data['id'] ?? '';
         $this->product = Product::fetchOne([$this->id]);
@@ -103,17 +115,14 @@ class ProductController extends Controller {
             ':image' => $this->image,
             ':id' => $this->id
         ];
-//        var_dump($newProductDetails);
-//        var_dump(Product::update($newProductDetails));
 
         Product::update($newProductDetails) ? header('Location: /product/index/?id=' . $this->id) : false;
     }
 
     //удаление товара из каталога
-    public function deleteProduct($id) {
-        $db = createConnection();
-        $sql = 'DELETE FROM products WHERE id=' . $id;
-        return execQuery($sql, $db);
+    public function deleteProduct($data = []) {
+        $this->id = (int)$data['id'] ?? '';
+        Product::delete([$this->id]) ? header('Location: /products/index/') : false;
     }
 
     //загрузка файла на сервер

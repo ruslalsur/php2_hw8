@@ -22,4 +22,10 @@ class Product extends Model {
         return DB::getInstance()->exec("UPDATE $table SET `name` = :name, `description` = :description, `price` = :price, 
                     `image` = :image WHERE `id` = :id", $params);
     }
+
+    //удаление товара в базе данных
+    public static function delete($params) {
+        $table = static::$table;
+        return DB::getInstance()->exec("DELETE FROM $table WHERE `id` = ?", $params);
+    }
 }
