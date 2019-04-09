@@ -7,16 +7,14 @@ namespace App\Controllers;
 use App\Classes\Templater;
 use App\App;
 
-abstract class Controller
-{
-	protected $template;
-	protected $twig;
-	protected $hidenMenuItems = [];
+abstract class Controller {
+    protected $template;
+    protected $twig;
+    protected $hidenMenuItems = [];
     protected $app;
 
-	public function __construct()
-	{
-		$this->twig = Templater::getInstance()->twig;
+    public function __construct() {
+        $this->twig = Templater::getInstance()->twig;
         $this->app = App::getInstance();
 
         if (empty($_SESSION['login'])) {
@@ -32,7 +30,7 @@ abstract class Controller
             $this->hidenMenuItems['reg'] = 'hide';
             $this->hidenMenuItems['login'] = 'hide';
         }
-	}
+    }
 
     /**
      * @param array $params
@@ -42,8 +40,7 @@ abstract class Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    protected function render(?array $params = [], ?string $template = null): string
-    {
+    protected function render(?array $params = [], ?string $template = null): string {
         if (!$template) {
             $template = $this->template;
         }

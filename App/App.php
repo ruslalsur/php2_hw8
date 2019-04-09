@@ -8,10 +8,12 @@ class App {
     use SingletonTrait;
 
     public $session = false;
+    public $post = false;
     
     public function run() {
         session_start();
         $this->session = &$_SESSION;
+        $this->post = &$_POST;
 
         $path = $_REQUEST['path'] ?? '';
         $params = [];
@@ -41,7 +43,7 @@ class App {
         echo $controller->$method($_REQUEST);
 
 //        echo '<pre>';
-//        var_dump($_POST);
+//        var_dump();
 //        echo '</pre>';
     }
 }

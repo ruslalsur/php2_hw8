@@ -1,0 +1,33 @@
+{% extends "index.twig" %}
+
+{% block body %}
+    <form enctype="multipart/form-data" action="/product/createProduct/" method="POST">
+        <fieldset class="fset-main">
+            <div>
+                <p>
+                    <label for="name"><b>Наименование</b></label><br>
+                    <input type="text" name="name" placeholder="название товара">
+                </p>
+                <p>
+                    <label for="description"><b>Описание</b></label><br>
+                    <textarea name="description" cols="60" rows="10" placeholder="описание товара"></textarea>
+                </p>
+                <p>
+                    <label for="name"><b>Цена</b></label><br>
+                    $<input type="number" name="price" placeholder="только цифры">
+                </p>
+                <p>
+                    <input type="submit" value="Создать новый товар">
+                    <input type="reset" value="Очистить поля">
+                </p>
+            </div>
+            <div>
+                <p>
+                    <b>Указать изображение товара</b><br>
+                    <input type="hidden" name="MAX_FILE_SIZE" value="30000000"/>
+                    <input name="userfile" type="file">
+                </p>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

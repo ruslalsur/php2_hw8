@@ -45,4 +45,72 @@ class ProductController extends Controller {
             'hide' => $this->hidenMenuItems
         ]);
     }
+
+    //создание нового товара в каталоге $params = [':name'=>$name, ':description'=>$description, ':price'=>$price, ':image'=>$image]
+    public function createProduct() {
+        if (empty($this->app->post)) {
+            $this->template = 'createProduct.twig';
+            return $this->render([
+                'title' => 'Новый товар',
+                'hide' => $this->hidenMenuItems,
+            ]);
+        }
+
+
+        $newProductDetails = [
+            ':name' => $this->app->post['name'],
+            ':description' => $this->app->post['description'],
+            ':price' => $this->app->post['price'],
+            ':image' => $this->uploadFile()
+        ];
+
+
+        echo '<pre>';
+        var_dump($this->app->post);
+        var_dump(NO_IMAGE);
+        echo '</pre>';
+
+        $this->id = Product::create($newProductDetails);
+
+
+    }
+
+    //изменение характеристик товара в каталоге
+    public function updateProduct($id, $name, $description, $price, $discount, $image) {
+        $db = createConnection();
+        $id = (int)$id;
+        $name = escapeString($db, $name);
+        $description = escapeString($db, $description);
+        $price = (float)$price;
+        $discount = (int)$discount;
+
+        //изменение картинки товара, если поле с картинкой товара не было заполнено
+        if (empty($image)) {
+            $sql = 'UPDATE products SET name = "' . $name . '", description = "' . $description . '", price = "' . $price . '", discount = "' . $discount . '" WHERE id=' . $id;
+        } else {
+            $sql = 'UPDATE products SET name = "' . $name . '", description = "' . $description . '", price = "' . $price . '", image = "' . $image . '", discount = "' . $discount . '" WHERE id=' . $id;
+
+        }
+
+        return execQuery($sql, $db);
+    }
+
+    //удаление товара из каталога
+    public function deleteProduct($id) {
+        $db = createConnection();
+        $sql = 'DELETE FROM products WHERE id=' . $id;
+        return execQuery($sql, $db);
+    }
+
+    //загрузка файла на сервер
+    protected function uploadFile() {
+        $uploaddir = WWW_DIR . 'img/upload/';
+        $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+
+        if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+            return '/img/upload/' . basename($uploadfile);
+        } else {
+            return '/img/' . basename(NO_IMAGE);
+        }
+    }
 }

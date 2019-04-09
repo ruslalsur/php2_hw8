@@ -35,7 +35,6 @@ class UserController extends Controller {
             'hide' => $this->hidenMenuItems,
             'message' => $msg
         ]);
-
     }
 
     //метод контролера пользователя реализующий функционал залогинивания пользователя
